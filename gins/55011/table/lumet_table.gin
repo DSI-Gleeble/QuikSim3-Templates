@@ -1,25 +1,9 @@
 +++
 [meta]
 name        = "LUMet Table"
-description = "Table program with LUMet trigger and scan setup"
+description = "Table program with LUMet trigger and scan setup. Requires LumetDivisor and ScanTC tokens (was QS2 #setup)."
 machine     = "55011"
 doctype     = "table"
-
-[[setup]]
-name        = "LumetDivisor"
-default     = 1
-format      = "2.0"
-min         = 1
-max         = 99
-description = "sample rate divisor (1-99)"
-
-[[setup]]
-name        = "ScanTC"
-default     = 1
-format      = "1.0"
-min         = 1
-max         = 8
-description = "thermocouple for LUMet scan process (1-8)"
 +++
 // LUMet Table Setup
 
