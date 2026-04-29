@@ -25,7 +25,7 @@ jobs:
       - name: Pack examples
         run: |
           mkdir -p dist
-          zip -r dist/examples.zip examples manifest.json README.md
+          zip -r dist/examples.zip examples gins manifest.json README.md
           ls -la dist
 
       - name: Upload release assets
