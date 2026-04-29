@@ -1,0 +1,14 @@
+{
+  "id": "tensile-basic",
+  "name": "Basic Tensile Test",
+  "category": "Tensile",
+  "description": "Beginner-friendly single-hit tensile test to 50% strain at 1000C.",
+  "tags": [
+    "tensile",
+    "basic",
+    "single-hit"
+  ],
+  "difficulty": "beginner",
+  "program": "program.qhd",
+  "min_quiksim3": "3.0.0"
+}

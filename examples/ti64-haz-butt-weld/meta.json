@@ -1,0 +1,15 @@
+{
+  "id": "ti64-haz-butt-weld",
+  "name": "Ti-6Al-4V HAZ Simulation",
+  "category": "Welding",
+  "description": "Rykalin 3-D HAZ thermal cycle simulating a Ti-6Al-4V butt weld.",
+  "tags": [
+    "haz",
+    "welding",
+    "titanium",
+    "rykalin"
+  ],
+  "difficulty": "advanced",
+  "program": "program.qhz",
+  "min_quiksim3": "3.0.0"
+}

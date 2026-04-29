@@ -1,0 +1,166 @@
+{
+  "schemaVersion": 1,
+  "axisCount": 3,
+  "rowCount": 11,
+  "axisLinks": {},
+  "template": {
+    "name": "Thermal Cycle - Reheat",
+    "description": "Heat-hold-cool thermal cycle for reheat studies."
+  },
+  "stressStrain": {
+    "mode": "Length",
+    "l": "Stroke",
+    "l0": "12.00mm",
+    "d": "",
+    "d0": "10.00mm",
+    "w": "",
+    "h": "",
+    "a": "",
+    "b": ""
+  },
+  "acqVars": [
+    "TC1",
+    "TC2",
+    "Power"
+  ],
+  "startup": {
+    "Mechanical": false,
+    "Thermal": true,
+    "Vacuum": false,
+    "Compliance Adjustment": false
+  },
+  "forceLevelHeatMute": {
+    "enabled": false,
+    "setForce": 0.0,
+    "tripForce": 0.0
+  },
+  "complianceAdjustment": {
+    "enabled": false,
+    "stiffness": 500.0
+  },
+  "shutdown": {
+    "Mechanical": false,
+    "Thermal": true,
+    "Vacuum": false
+  },
+  "segments": [
+    {
+      "type": "mode",
+      "modes": [
+        "Stroke (mm)",
+        "Wedge (mm)",
+        "TC1 (C)"
+      ]
+    },
+    {
+      "type": "segment",
+      "time": "01:00.0",
+      "axes": [
+        "0",
+        "0",
+        "900"
+      ],
+      "loop": "None",
+      "loopCount": 0
+    },
+    {
+      "type": "segment",
+      "time": "00:30.0",
+      "axes": [
+        "0",
+        "0",
+        "900"
+      ],
+      "loop": "None",
+      "loopCount": 0
+    },
+    {
+      "type": "segment",
+      "time": "00:45.0",
+      "axes": [
+        "0",
+        "0",
+        "25"
+      ],
+      "loop": "None",
+      "loopCount": 0
+    },
+    {
+      "type": "segment",
+      "time": "00:00.0",
+      "axes": [
+        "0",
+        "0",
+        "0"
+      ],
+      "loop": "None",
+      "loopCount": 0
+    },
+    {
+      "type": "segment",
+      "time": "00:00.0",
+      "axes": [
+        "0",
+        "0",
+        "0"
+      ],
+      "loop": "None",
+      "loopCount": 0
+    },
+    {
+      "type": "segment",
+      "time": "00:00.0",
+      "axes": [
+        "0",
+        "0",
+        "0"
+      ],
+      "loop": "None",
+      "loopCount": 0
+    },
+    {
+      "type": "segment",
+      "time": "00:00.0",
+      "axes": [
+        "0",
+        "0",
+        "0"
+      ],
+      "loop": "None",
+      "loopCount": 0
+    },
+    {
+      "type": "segment",
+      "time": "00:00.0",
+      "axes": [
+        "0",
+        "0",
+        "0"
+      ],
+      "loop": "None",
+      "loopCount": 0
+    },
+    {
+      "type": "segment",
+      "time": "00:00.0",
+      "axes": [
+        "0",
+        "0",
+        "0"
+      ],
+      "loop": "None",
+      "loopCount": 0
+    },
+    {
+      "type": "segment",
+      "time": "00:00.0",
+      "axes": [
+        "0",
+        "0",
+        "0"
+      ],
+      "loop": "None",
+      "loopCount": 0
+    }
+  ]
+}

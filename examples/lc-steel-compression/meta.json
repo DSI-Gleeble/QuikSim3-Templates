@@ -1,0 +1,15 @@
+{
+  "id": "lc-steel-compression",
+  "name": "LC Steel Compression",
+  "category": "Compression",
+  "description": "Two-hit low-carbon steel compression with interpass dwell for grain-refinement studies.",
+  "tags": [
+    "compression",
+    "steel",
+    "multi-hit",
+    "grain-refinement"
+  ],
+  "difficulty": "intermediate",
+  "program": "program.qhd",
+  "min_quiksim3": "3.0.0"
+}

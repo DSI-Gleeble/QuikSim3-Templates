@@ -1,0 +1,14 @@
+{
+  "id": "stress-relaxation",
+  "name": "Stress Relaxation",
+  "category": "Tensile",
+  "description": "Ramp to 20% strain and hold for 300 seconds to observe stress decay.",
+  "tags": [
+    "tensile",
+    "relaxation",
+    "creep"
+  ],
+  "difficulty": "intermediate",
+  "program": "program.qhd",
+  "min_quiksim3": "3.0.0"
+}

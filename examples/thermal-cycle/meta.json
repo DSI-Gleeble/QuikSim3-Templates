@@ -1,0 +1,14 @@
+{
+  "id": "thermal-cycle",
+  "name": "Thermal Reheat Cycle",
+  "category": "Thermal",
+  "description": "Heat-hold-cool thermal cycle for studying reheat and microstructure evolution.",
+  "tags": [
+    "thermal",
+    "cycle",
+    "reheat"
+  ],
+  "difficulty": "beginner",
+  "program": "program.qst",
+  "min_quiksim3": "3.0.0"
+}

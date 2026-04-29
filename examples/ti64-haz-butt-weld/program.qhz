@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "template": {
+    "name": "Ti-6Al-4V HAZ Weld Cycle",
+    "description": "Rykalin 3-D HAZ thermal cycle for Ti-6Al-4V butt welds."
+  },
+  "stressStrain": {
+    "mode": "Length",
+    "l": "Stroke",
+    "l0": "12.00mm",
+    "d": "CGauge",
+    "d0": "10.00mm",
+    "w": "5.00mm",
+    "h": "10.00mm",
+    "a": "0.866",
+    "b": "0.866"
+  },
+  "acqRate": 500.0,
+  "acqVars": [
+    "TC1",
+    "Stroke",
+    "Force"
+  ],
+  "config": {
+    "controlTC": "TC1",
+    "maxTime": 60.0,
+    "coolTemp": 200.0,
+    "type": "RYK3",
+    "fsdModel": "titan1",
+    "density": 4.43,
+    "specHeat": 0.526,
+    "tCond": 0.067,
+    "constrain": false
+  },
+  "forceLevelHeatMute": {
+    "enabled": false,
+    "setForce": 0.0,
+    "tripForce": 0.0
+  },
+  "complianceAdjustment": {
+    "enabled": false,
+    "stiffness": 500.0
+  },
+  "shutdown": {
+    "Mechanical": true,
+    "Thermal": true,
+    "Vacuum": false
+  },
+  "welds": [
+    {
+      "maxTemp": 1200.0,
+      "preTemp": 400.0,
+      "energyIn": 15.0,
+      "heatRate": 500.0,
+      "holdTime": 0.01,
+      "coolTime": 19.8,
+      "weldSpeed": 1.0,
+      "distance": 0.5,
+      "calcCool": false
+    }
+  ]
+}

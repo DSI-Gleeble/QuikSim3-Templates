@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "generated_at": "2026-04-29T10:10:31+00:00",
+  "examples": [
+    {
+      "id": "lc-steel-compression",
+      "name": "LC Steel Compression",
+      "category": "Compression",
+      "description": "Two-hit low-carbon steel compression with interpass dwell for grain-refinement studies.",
+      "tags": [
+        "compression",
+        "steel",
+        "multi-hit",
+        "grain-refinement"
+      ],
+      "difficulty": "intermediate",
+      "type": "hds",
+      "program": "examples/lc-steel-compression/program.qhd",
+      "readme": "examples/lc-steel-compression/README.md",
+      "min_quiksim3": "3.0.0"
+    },
+    {
+      "id": "stress-relaxation",
+      "name": "Stress Relaxation",
+      "category": "Tensile",
+      "description": "Ramp to 20% strain and hold for 300 seconds to observe stress decay.",
+      "tags": [
+        "tensile",
+        "relaxation",
+        "creep"
+      ],
+      "difficulty": "intermediate",
+      "type": "hds",
+      "program": "examples/stress-relaxation/program.qhd",
+      "readme": "examples/stress-relaxation/README.md",
+      "min_quiksim3": "3.0.0"
+    },
+    {
+      "id": "tensile-basic",
+      "name": "Basic Tensile Test",
+      "category": "Tensile",
+      "description": "Beginner-friendly single-hit tensile test to 50% strain at 1000C.",
+      "tags": [
+        "tensile",
+        "basic",
+        "single-hit"
+      ],
+      "difficulty": "beginner",
+      "type": "hds",
+      "program": "examples/tensile-basic/program.qhd",
+      "readme": "examples/tensile-basic/README.md",
+      "min_quiksim3": "3.0.0"
+    },
+    {
+      "id": "thermal-cycle",
+      "name": "Thermal Reheat Cycle",
+      "category": "Thermal",
+      "description": "Heat-hold-cool thermal cycle for studying reheat and microstructure evolution.",
+      "tags": [
+        "thermal",
+        "cycle",
+        "reheat"
+      ],
+      "difficulty": "beginner",
+      "type": "table",
+      "program": "examples/thermal-cycle/program.qst",
+      "readme": "examples/thermal-cycle/README.md",
+      "min_quiksim3": "3.0.0"
+    },
+    {
+      "id": "ti64-haz-butt-weld",
+      "name": "Ti-6Al-4V HAZ Simulation",
+      "category": "Welding",
+      "description": "Rykalin 3-D HAZ thermal cycle simulating a Ti-6Al-4V butt weld.",
+      "tags": [
+        "haz",
+        "welding",
+        "titanium",
+        "rykalin"
+      ],
+      "difficulty": "advanced",
+      "type": "haz",
+      "program": "examples/ti64-haz-butt-weld/program.qhz",
+      "readme": "examples/ti64-haz-butt-weld/README.md",
+      "min_quiksim3": "3.0.0"
+    }
+  ]
+}

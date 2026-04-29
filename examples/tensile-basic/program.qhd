@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "template": {
+    "name": "Basic Tensile Test",
+    "description": "Single-hit stroke-controlled tensile to 50% strain at 1000C."
+  },
+  "stressStrain": {
+    "mode": "Length",
+    "l": "Stroke",
+    "l0": "12.00mm",
+    "d": "CGauge",
+    "d0": "10.00mm",
+    "w": "5.00mm",
+    "h": "10.00mm",
+    "a": "0.866",
+    "b": "0.866"
+  },
+  "acqRate": 200.0,
+  "autoRate": false,
+  "acqVars": [
+    "TC1",
+    "Force",
+    "Stroke"
+  ],
+  "startup": {
+    "jawTempCo": 0.0,
+    "specTempCo": 64.0,
+    "controlTC": "TC1",
+    "defType": "Eng",
+    "soak1": {
+      "enable": true,
+      "target": 1000.0,
+      "rate": 10.0,
+      "time": 30.0
+    },
+    "soak2": {
+      "enable": false,
+      "target": 0.0,
+      "rate": 0.0,
+      "time": 0.0
+    },
+    "complianceAdjustment": {
+      "enabled": false,
+      "stiffness": 500.0
+    }
+  },
+  "shutdown": {
+    "systems": {},
+    "soakTime": 5.0,
+    "cooling": true,
+    "target": 25.0,
+    "rate": 50.0,
+    "quench1": false,
+    "quenchTime1": 0.0,
+    "quench2": false,
+    "quenchTime2": 0.0
+  },
+  "deformations": [
+    {
+      "strain": 0.5,
+      "rate": 1.0,
+      "dwell": 0.0,
+      "adjust": 0.0,
+      "compliance": 0.0,
+      "acqfreq": 1000.0,
+      "tempTarget": 1000.0,
+      "tempRate": 10.0,
+      "soakTime": 0.0,
+      "exitTemp": 25.0,
+      "heatMute": true
+    }
+  ]
+}
