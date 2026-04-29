@@ -1,0 +1,59 @@
++++
+[meta]
+name        = "Standard Table"
+description = "Generic table program"
+machine     = "55011"
+doctype     = "table"
++++
+// Standard Table Setup
+//
+
+//pause runtime clock
+set RunTimeInhibit to on
+
+{{ systemSetup }}
+{{ strainSetup }}
+{% if acqVarCount %}
+acquire {{ acqVars }}
+{% endif %}
+{% if pump %}
+set mechanical to on
+wait mechanical.ready
+{% if hypress %}
+set hypress to on
+delay 1sec
+sync
+wait mechanical.ready
+{% endif %}
+{% endif %}
+sync
+{% if heat %}
+set heatbutton to on
+wait thermal.ready
+{% endif %}
+set lastruntime to systime
+
+{{ tableLines }}
+
+sample off
+{% if not endHeat %}
+set heatbutton to off
+set tc1 to 0C
+set temptrim to 0C
+{% endif %}
+{% if endPump %}
+set hymain to off
+{% if not endHypress %}
+set hypress to off
+{% endif %}
+{% endif %}
+{% if not endPump %}
+if hypress
+    set hypress to off
+end
+if mechanical = 0
+    set stroke to 0mm
+else
+    set mechanical to off
+end
+{% endif %}

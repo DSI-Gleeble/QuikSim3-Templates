@@ -1,0 +1,155 @@
++++
+[meta]
+name        = "Hydrawedge"
+description = "Auto-load template for HDS hot deformation"
+machine     = "55011"
+doctype     = "hds"
++++
+// Hydrawedge Auto-load
+
+//pause runtime clock
+set RunTimeInhibit to on
+
+{{ strainSetup }}
+acquire {{ acqVars }}
+
+set {{ controlTC }} to 0C
+set tempmode to {{ controlTC }}.control
+set {{ controlTC }}.kp to 0.002
+set {{ controlTC }}.ki to 5
+set stroke to 0cm
+set wedge to 0cm
+
+set mechanical to on
+wait mechanical.ready
+set hypress to on
+delay 1sec
+sync
+wait mechanical.ready
+
+// Zero out stroke under full load...
+ramp stroke to -7cm in 5sec
+delay 1sec
+zero stroke
+delay 100msec
+set airtc to on
+set airram to on
+while force>{{ heatForce }}kgf
+    set wedge.zero to wedge.zero+{{ heatInc }}mm
+    delay 100msec
+end
+
+ramp stroke to {{ deltaH0 }}mm+{{ backup0 }}mm+{{ compliance0 }}mm in 1sec  // {{ deltaH0 }}mm+{{ backup0 }}mm+{{ compliance0 }}mm
+ramp wedge to -{{ yokeCompliance }}mm in 1sec   // -{{ yokeCompliance }}mm
+
+// energize load solenoid and grab specimen
+set specload to on
+delay 500msec
+set specload to off
+
+// turn heating system on
+set heatbutton to on
+wait thermal.ready
+
+// Move into position for first deformation
+ramp wedge to {{ finalH0 }}mm-{{ h0 }}mm-{{ compliance0 }}mm in 1sec  // {{ finalH0 }}mm-{{ h0 }}mm-{{ compliance0 }}mm
+zero {{ strainSrc }}
+
+// Pre-deformation:
+set lastruntime to systime
+sample at {{ preacqfreq }}Hz
+
+{{ heating }}
+
+zero {{ strainSrc }}
+delay 0.1sec
+
+// Deformations...
+{% for hit in hits %}
+
+// Hit {{ loop.index }}:
+// e:{{ hit.e }}, e':{{ hit.eDot }}/sec, dw: {{ hit.dwell }}msec, adj:{{ hit.adjust }}mm/sec, com: {{ hit.compliance }}mm,
+// tt:{{ hit.tempTarget }}C, tt':{{ hit.tempRate }}C/sec, soak:{{ hit.soakTime }}sec, exit:{{ hit.exitTemp }}C
+// entryVelocity:{{ hit.entryVelocity }}mm/sec, exitVelocity:{{ hit.exitVelocity }}mm/sec
+
+// back up= bud + compliance + deltaH
+ramp stroke to {{ hit.bud }}mm+{{ hit.compliance }}mm+{{ hit.deltaH }}mm in {{ hit.wedgePosDuration }}msec
+
+delay {{ hit.strokeLag }}msec   // strokeLag={{ hit.strokeLag }}msec
+
+// finalH={{ hit.finalH }}mm (-) h0={{ h0 }}mm (+) TX={{ hit.TX0 }}mm (-) compliance={{ hit.compliance }}mm {specH={{ hit.finalH }}mm, T={{ hit.ti }}C}
+ramp wedge to {{ hit.finalH }}mm-{{ h0 }}mm+{{ hit.TX0 }}mm-{{ hit.compliance }}mm in {{ hit.wedgePosDuration }}msec  // wedgePosDuration={{ hit.wedgePosDuration }}msec
+
+sample at {{ preacqfreq }}Hz
+
+// Hit heating here
+{% if hit.ti > hit.tempTarget %}
+set airram to on   // specimen is cooling
+{% endif %}
+{% if hit.heatTime > 0 %}
+// thermal compensation
+ramp wedge to {{ hit.finalH }}mm-{{ h0 }}mm+{{ hit.TX1 }}mm-{{ hit.compliance }}mm in {{ hit.heatTime }}sec &  // TX={{ hit.TX1 }}mm
+ramp {{ controlTC }} to {{ hit.tempTarget }}C in {{ hit.heatTime }}sec
+{% endif %}
+// Thermal soak
+{% if hit.soakTime > 1 %}
+set airram to off
+delay {{ hit.soakTime }}sec-1sec
+set airram to on
+delay 1sec
+{% else %}
+set airram to on
+delay {{ hit.soakTime }}sec
+{% endif %}
+// Blank strain
+sync
+set strain.blanking to 0kN
+
+{% if loop.index == 1 %}
+// final strain zero
+zero {{ strainSrc }}
+delay 0.1sec
+{% endif %}
+delay {{ hit.hWedgeSettle }}msec
+{% if hit.heatMute %}
+set {{ controlTC }} to 0C
+{% endif %}
+sample at {{ acqFreq }}Hz
+delay {{ hit.hWedgeSettle }}msec
+
+ramp stroke to {{ hit.deltaH }}mm in {{ hit.buTime }}sec
+
+{% if not hit.heatMute %}
+ramp {{ controlTC }} to {{ hit.exitTemp }}C in {{ hit.hitTime }}msec &
+{% endif %}
+{% if hit.hitType == 1 %}
+{% for seg in hit.segments %}
+ramp stroke to {{ seg.pos }}mm in {{ seg.step }}msec &
+{% endfor %}
+{% else %}
+{% for seg in hit.segments %}{% endfor %}
+ramp stroke to 0mm in {{ hit.hitTime }}msec
+{% endif %}
+{{ hit.overprogram }}
+
+{% if hit.heatMute %}
+set {{ controlTC }} to {{ hit.exitTemp }}C
+{% endif %}
+{% endfor %}
+
+// Post-deformation:
+ramp stroke to {{ h0 }}mm+3mm in 100msec  // {{ h0 }}mm+3mm
+ramp wedge to {{ hits[-1].finalH }}mm-{{ h0 }}mm-2mm in 300msec  // {{ hits[-1].finalH }}mm-{{ h0 }}mm-2mm
+sample at {{ preacqfreq }}Hz
+
+{{ cooling }}
+
+// Shut down...
+sample off
+set heatbutton to off
+set tc1 to 0C
+set hypress to off
+set mechanical to off
+set temptrim to 0C
+sync
+set strain.blanking to 0kN

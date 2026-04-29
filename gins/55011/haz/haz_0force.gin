@@ -1,0 +1,50 @@
++++
+[meta]
+name        = "Zero-Force HAZ"
+description = "HAZ simulation with zero-force ramp at start"
+machine     = "55011"
+doctype     = "haz"
++++
+// Zero force control HAZ
+
+//pause runtime clock
+set RunTimeInhibit to on
+
+{{ strainSetup }}
+acquire {{ acqVars }}
+
+set {{ controlTC }} to 0C
+set tempmode to {{ controlTC }}.control
+
+{% if constrain %}
+// store forcelevel variables until mechanical system is initialized
+set forcelevelmax_store to forcelevelmax
+set forcelevelmin_store to forcelevelmin
+set forcelevelmax to 50000kgf
+set forcelevelmin to 50000kgf
+set stroke to 0cm
+set wedge to 0cm
+set mechanical to on
+wait mechanical.ready
+sync
+// reset forcelevel variables after mechanical system is initialized
+set forcelevelmax to forcelevelmax_store
+set forcelevelmin to forcelevelmin_store
+ramp force to 0kgf in 1sec
+{% endif %}
+set heatbutton to on
+wait thermal.ready
+delay 500msec
+set lastruntime to systime
+
+{{ hazCurves }}
+
+// Shut down...
+sample off
+set heatbutton to off
+set tc1 to 0C
+set temptrim to 0C
+
+{% if constrain %}
+set mechanical to off
+{% endif %}

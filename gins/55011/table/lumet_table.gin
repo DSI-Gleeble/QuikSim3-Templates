@@ -1,0 +1,106 @@
++++
+[meta]
+name        = "LUMet Table"
+description = "Table program with LUMet trigger and scan setup"
+machine     = "55011"
+doctype     = "table"
+
+[[setup]]
+name        = "LumetDivisor"
+default     = 1
+format      = "2.0"
+min         = 1
+max         = 99
+description = "sample rate divisor (1-99)"
+
+[[setup]]
+name        = "ScanTC"
+default     = 1
+format      = "1.0"
+min         = 1
+max         = 8
+description = "thermocouple for LUMet scan process (1-8)"
++++
+// LUMet Table Setup
+
+// setup section for LUMet
+// setup format= variablename,default value, /left of decimal/./right of decimal//units/, minimum, maximum
+
+//pause runtime clock
+set RunTimeInhibit to on
+
+{{ systemSetup }}
+{{ strainSetup }}
+
+// Configure trigger system
+set trigger_level to 0.5
+set trigger_polarity to 1
+set trigger_source to lumetTrigger.index
+set trigger_channel0 to TC{{ ScanTC }}.index
+
+set wedge to 0mm
+zero wedge
+
+// Configure LUMet scan divisor
+set lumetDivisor to {{ LumetDivisor }}
+
+{% if acqVarCount %}
+acquire {{ acqVars }}
+{% endif %}
+// store forcelevel variables until mechanical system is initialized
+set forcelevelmax_store to forcelevelmax
+set forcelevelmin_store to forcelevelmin
+set forcelevelmax to 50000kgf
+set forcelevelmin to 50000kgf
+{% if pump %}
+set mechanical to on
+wait mechanical.ready
+{% if hypress %}
+set hypress to on
+delay 1sec
+sync
+wait mechanical.ready
+{% endif %}
+{% endif %}
+sync
+// reset forcelevel variables after mechanical system is initialized
+set forcelevelmax to forcelevelmax_store
+set forcelevelmin to forcelevelmin_store
+{% if heat %}
+set heatbutton to on
+wait thermal.ready
+{% endif %}
+go lumet::setup
+wait lumetSystemState=3 // wait for Armed
+delay 1sec
+sync
+set lastruntime to systime
+
+{{ tableLines }}
+
+set lumetSample to off
+sample off
+delay 4sec
+sync
+go lumet::save_metadata
+{% if not endHeat %}
+set heatbutton to off
+set tc1 to 0C
+set temptrim to 0C
+{% endif %}
+{% if endPump %}
+set hymain to off
+{% if not endHypress %}
+set hypress to off
+{% endif %}
+{% endif %}
+{% if not endPump %}
+if hypress
+    set hypress to off
+end
+if mechanical = 0
+    set stroke to 0mm
+else
+    set mechanical to off
+end
+{% endif %}
